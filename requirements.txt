@@ -1,0 +1,11 @@
+virtualenv
+virtualenvwrapper
+numpy
+scipy
+scikit-learn
+joblib
+matplotlib
+ipython
+keras
+theano
+pandas
