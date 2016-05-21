@@ -1,17 +1,5 @@
 import string
-
-from keras.layers import Input, Embedding, GRU, Dense, merge
-from keras.models import Model
-from keras.constraints import unitnorm
-import keras.callbacks as cb
-
-import pandas as pd
-import numpy as np
-
 from sklearn.utils import check_random_state
-
-def load_data():
-    return pd.read_csv('data/Ratings_Warriner_et_al.csv.gz', encoding='utf8')
 
 def build_index(words):
     chars = set()
@@ -28,100 +16,6 @@ def build_index(words):
             index[metachar] = len(index)
 
     return index
-
-def build_config(df, index):
-    md = {}
-    md['maxlen'] = max(df.Word.apply(len)) + 2
-    md['minlen'] = min(df.Word.apply(len)) + 2
-    md['batch_size'] = 32
-    md['n_embeddings'] = len(index)
-    md['n_embed_dims'] = 25
-    md['n_recurrent_units'] = 50
-    md['n_dense_units'] = 10
-    md['optimizer'] = 'adam'
-    md['patience'] = 2
-    return md
-
-def build_X_valence(words, config, index):
-    X = np.zeros((len(words), config['maxlen']), dtype='int32')
-    for i,word in enumerate(words):
-        for j,ch in enumerate(word):
-            X[i,j] = index[ch]
-    return X
-
-def build_y_valence(values):
-    mean = values.mean()
-    sd = values.std()
-    values -= mean
-    values /= sd
-    return values
-
-def build_X_language_model(words, config, index):
-    examples = []
-    for word in words:
-        for i in range(len(word)):
-            for j in range(config['window_size']):
-                print(word, i, j, word[i+j])
-
-def build_y_language_model(X):
-    pass
-
-def build_char_language_model(config):
-    batch_shape = (config['batch_size'], config['maxlen'])
-    input = Input(batch_shape=batch_shape, dtype='int32')
-
-    embed = Embedding(
-            input_dim=config['n_embeddings'],
-            output_dim=config['n_embed_dims'],
-            input_length=config['maxlen'], 
-            mask_zero=True,
-            W_constraint=unitnorm())
-    x = embed(input)
-
-    x = GRU(config['n_recurrent_units'],
-            stateful=True,
-            mask_zero=True)
-
-    x = Dense(config['n_dense_units'], activation='relu')(x)
-
-    output = Dense(config['n_embeddings'], activation='softmax')(x)
-
-    model = Model(input=input, output=output)
-    model.compile(optimizer=config['optimizer'],
-            loss='categorical_crossentropy')
-
-    return model
-
-
-def build_valence_model(config):
-    input = Input(shape=(config['maxlen'],), dtype='int32')
-
-    embed = Embedding(
-            input_dim=config['n_embeddings'],
-            output_dim=config['n_embed_dims'],
-            input_length=config['maxlen'], 
-            mask_zero=True,
-            W_constraint=unitnorm())
-    x = embed(input)
-
-    x = GRU(config['n_recurrent_units'],
-            return_sequences=False)(x)
-
-    x = Dense(config['n_dense_units'], activation='relu')(x)
-
-    output = Dense(1, activation='linear')(x)
-
-    model = Model(input=input, output=output)
-    model.compile(optimizer=config['optimizer'],
-            loss='mean_squared_error')
-
-    return model
-
-def build_callbacks(config):
-    callbacks = []
-    callbacks.append(cb.EarlyStopping(
-        monitor='loss', patience=config['patience']))
-    return callbacks
 
 def changename(name, chars, random_state):
     chars = list(chars)
