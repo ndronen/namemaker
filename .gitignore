@@ -1,62 +1,37 @@
-# Byte-compiled / optimized / DLL files
-__pycache__/
-*.py[cod]
-*$py.class
+*.pyc
 
-# C extensions
-*.so
-
-# Distribution / packaging
-.Python
-env/
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-*.egg-info/
-.installed.cfg
-*.egg
-
-# PyInstaller
-#  Usually these files are written by a python script from a template
-#  before PyInstaller builds the exe, so as to inject date/other infos into it.
-*.manifest
-*.spec
-
-# Installer logs
-pip-log.txt
-pip-delete-this-directory.txt
-
-# Unit test / coverage reports
-htmlcov/
-.tox/
-.coverage
-.coverage.*
-.cache
-nosetests.xml
-coverage.xml
-*,cover
-.hypothesis/
-
-# Translations
-*.mo
-*.pot
-
-# Django stuff:
-*.log
-
-# Sphinx documentation
-docs/_build/
-
-# PyBuilder
-target/
-
-#Ipython Notebook
-.ipynb_checkpoints
+bin/activate
+bin/activate.csh
+bin/activate.fish
+bin/activate_this.py
+bin/easy_install
+bin/easy_install-3.5
+bin/f2py
+bin/get_env_details
+bin/iptest
+bin/iptest3
+bin/ipython
+bin/ipython3
+bin/pbr
+bin/pip
+bin/pip3
+bin/pip3.5
+bin/postactivate
+bin/postdeactivate
+bin/preactivate
+bin/predeactivate
+bin/python
+bin/python-config
+bin/python3
+bin/python3.5
+bin/theano-cache
+bin/theano-nose
+bin/theano-test
+bin/virtualenv
+bin/virtualenv-clone
+bin/virtualenvwrapper.sh
+bin/virtualenvwrapper_lazy.sh
+bin/wheel
+include
+lib
+share
