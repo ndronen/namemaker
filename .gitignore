@@ -1,4 +1,5 @@
 *.pyc
+.Python
 
 bin/activate
 bin/activate.csh
